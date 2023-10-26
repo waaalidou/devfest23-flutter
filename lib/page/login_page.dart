@@ -13,53 +13,75 @@ class LoginPage extends StatelessWidget {
     GlobalKey<FormState> fkey = GlobalKey();
     return Scaffold(
       body: SafeArea(
-        child: Center(
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(32.0),
-            child: Form(
-              key: fkey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const LargeText(text: 'Log in'),
-                  const SizedBox(height: 15),
-                  const SubText(
-                    text: 'Log in to your account',
-                  ),
-                  const SizedBox(height: 30),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: 'Email',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+        child: SingleChildScrollView(
+          child: Center(
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(32.0),
+              child: Form(
+                key: fkey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const LargeText(text: 'Log in'),
+                    const SizedBox(height: 15),
+                    const SubText(
+                      text: 'Log in to your account',
                     ),
-                  ),
-                  const SizedBox(height: 45),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: 'Password',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                    const SizedBox(height: 30),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                        labelText: 'Email',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 25),
-                  ElevatedButtons(
-                      onPressed: () {
-                        Navigator.pushNamed(context, HomePage.routeName);
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter text';
+                        }
+                        return null;
                       },
-                      text: 'Login'),
-                  const SizedBox(height: 35),
-                  Image.asset(
-                    'assets/images/undraw_Sign_in_re_o58h 1.png',
-                    fit: BoxFit.fill,
-                  ),
-                ],
+                    ),
+                    const SizedBox(height: 45),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                        labelText: 'Password',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter text';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 25),
+                    ElevatedButtons(
+                        onPressed: () {
+                          if (fkey.currentState!.validate()) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Processing Data')),
+                            );
+                            Navigator.pushNamed(context, HomePage.routeName);
+                          }
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text(' Error occured!')),
+                          );
+                        },
+                        text: 'Login'),
+                    const SizedBox(height: 35),
+                    Image.asset(
+                      'assets/images/undraw_Sign_in_re_o58h 1.png',
+                      fit: BoxFit.fill,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
